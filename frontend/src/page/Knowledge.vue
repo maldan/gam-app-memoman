@@ -1,12 +1,15 @@
 <template>
-  <div class="main"></div>
+  <div class="main">
+    <Header />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Header from '../component/Header.vue';
 
 export default defineComponent({
-  components: {},
+  components: { Header },
   async mounted() {},
   methods: {},
   data: () => {
@@ -17,5 +20,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .main {
+  padding: 10px;
 }
 </style>
