@@ -10,10 +10,7 @@
       <div :class="$style.header">
         <!-- Left -->
         <div :class="$style.left">
-          {{ $root.moment(note.deadline).format('DD MMM YYYY HH:mm') }}
-        </div>
-        <div :class="$style.left2">
-          {{ note.priority }}
+          {{ note.tags.join(', ') }}
         </div>
 
         <!-- Icons -->
@@ -55,11 +52,11 @@ export default defineComponent({
   },
   methods: {
     async refresh() {
-      this.list = await RestApi.todo.getList();
+      this.list = await RestApi.knowledge.getList();
     },
     async remove(id: string) {
       if (confirm('Are you sure?')) {
-        await RestApi.todo.delete(id);
+        await RestApi.knowledge.delete(id);
       }
       this.refresh();
     },

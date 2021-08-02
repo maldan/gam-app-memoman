@@ -9,12 +9,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^4.0.4",
+    "@tiptap/starter-kit": "*",
+    "@tiptap/vue-3": "*",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "vue-wysiwyg": "^1.7.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

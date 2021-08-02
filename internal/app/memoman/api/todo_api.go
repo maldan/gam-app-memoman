@@ -3,7 +3,6 @@ package api
 import (
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/maldan/gam-app-memoman/internal/app/memoman/core"
 	"github.com/maldan/go-cmhp/cmhp_crypto"
@@ -32,7 +31,7 @@ func (r TodoApi) GetList() []core.Todo {
 		out = append(out, r.GetIndex(ArgsId{Id: strings.Replace(file.Name(), ".json", "", 1)}))
 	}
 	sort.SliceStable(out, func(i, j int) bool {
-		return out[i].Created.Unix() > out[j].Created.Unix()
+		return out[i].Priority > out[j].Priority
 	})
 	return out
 }
@@ -40,7 +39,6 @@ func (r TodoApi) GetList() []core.Todo {
 // Create new
 func (r TodoApi) PostIndex(args core.Todo) {
 	args.Id = cmhp_crypto.UID(10)
-	args.Created = time.Now()
 	cmhp_file.WriteJSON(core.DataDir+"/todo/"+args.Id+".json", &args)
 }
 

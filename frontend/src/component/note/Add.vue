@@ -1,10 +1,9 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.window">
-      <Input placeholder="Priotiry..." style="margin-bottom: 10px" v-model="priority" />
       <TextArea placeholder="Description..." style="margin-bottom: 10px" v-model="description" />
+      <Input placeholder="Tags..." style="margin-bottom: 10px" v-model="tags" />
       <Input placeholder="Created..." style="margin-bottom: 10px" v-model="created" />
-      <Input placeholder="Deadline..." style="margin-bottom: 10px" v-model="deadline" />
 
       <div style="display: flex">
         <Button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
@@ -30,16 +29,19 @@ export default defineComponent({
   async mounted() {},
   methods: {
     async submit() {
-      await RestApi.todo.add(Number(this.priority), this.description, this.created, this.deadline);
+      await RestApi.note.add(
+        this.description,
+        this.tags.split(',').map((x: string) => x.trim()),
+        this.created,
+      );
       this.$emit('close');
     },
   },
   data() {
     return {
-      priority: '',
       description: '',
+      tags: '',
       created: Moment().format('YYYY-MM-DD HH:mm:ss'),
-      deadline: Moment().format('YYYY-MM-DD HH:mm:ss'),
     };
   },
 });
@@ -65,6 +67,11 @@ export default defineComponent({
     padding: 25px;
     color: #fefefe;
     box-shadow: 0px 1px 6px 2px #00000055;
+
+    textarea {
+      width: 480px;
+      height: 320px;
+    }
   }
 }
 </style>

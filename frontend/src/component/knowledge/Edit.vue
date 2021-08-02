@@ -1,14 +1,13 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.window">
-      <Input placeholder="Priotiry..." style="margin-bottom: 10px" v-model="priority" />
       <TextArea placeholder="Description..." style="margin-bottom: 10px" v-model="description" />
+      <Input placeholder="Tags..." style="margin-bottom: 10px" v-model="tags" />
       <Input placeholder="Created..." style="margin-bottom: 10px" v-model="created" />
-      <Input placeholder="Deadline..." style="margin-bottom: 10px" v-model="deadline" />
 
       <div style="display: flex">
         <Button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
-        <Button @click="submit()" text="Add" icon="add" style="margin-left: 5px" />
+        <Button @click="submit()" text="Save" icon="add" style="margin-left: 5px" />
       </div>
     </div>
   </div>
@@ -24,22 +23,32 @@ import Moment from 'moment';
 
 export default defineComponent({
   props: {
+    id: String,
     date: Object,
   },
   components: { Button, TextArea, Input },
-  async mounted() {},
+  async mounted() {
+    const d = await RestApi.knowledge.get(this.id + '');
+    this.tags = d.tags.join(', ');
+    this.description = d.description + '';
+    this.created = Moment(d.created).format('YYYY-MM-DD HH:mm:ss');
+  },
   methods: {
     async submit() {
-      await RestApi.todo.add(Number(this.priority), this.description, this.created, this.deadline);
+      await RestApi.knowledge.update({
+        id: this.id + '',
+        tags: this.tags.split(',').map((x: string) => x.trim()),
+        description: this.description,
+        created: this.created,
+      });
       this.$emit('close');
     },
   },
   data() {
     return {
-      priority: '',
+      tags: '',
       description: '',
-      created: Moment().format('YYYY-MM-DD HH:mm:ss'),
-      deadline: Moment().format('YYYY-MM-DD HH:mm:ss'),
+      created: '',
     };
   },
 });
@@ -65,6 +74,11 @@ export default defineComponent({
     padding: 25px;
     color: #fefefe;
     box-shadow: 0px 1px 6px 2px #00000055;
+
+    textarea {
+      width: 480px;
+      height: 320px;
+    }
   }
 }
 </style>
