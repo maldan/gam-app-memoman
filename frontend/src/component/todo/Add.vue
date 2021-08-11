@@ -65,6 +65,11 @@ export default defineComponent({
     padding: 25px;
     color: #fefefe;
     box-shadow: 0px 1px 6px 2px #00000055;
+
+    textarea {
+      width: 480px;
+      height: 320px;
+    }
   }
 }
 </style>
