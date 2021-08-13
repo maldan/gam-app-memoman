@@ -27,7 +27,10 @@ export default defineComponent({
           if (r2.match(/\.(png|jpeg|jpg|bmp|gif)$/)) {
             return `<img src="${r2}" style="max-width: 100%;" />`;
           }
-          const youtube = r2.match(/https?:\/\/www\.youtube\.com\/watch\?v=(.*)/);
+          let youtube = r2.match(/https?:\/\/(?:www\.)?youtube\.com\/watch\?v=(.*)/);
+          if (!youtube) {
+            youtube = r2.match(/https?:\/\/youtu\.be\/(.*)/);
+          }
           if (youtube) {
             return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtube[1]}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
           }

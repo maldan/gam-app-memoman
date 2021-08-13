@@ -5,16 +5,19 @@
       <div>&nbsp;</div>
       <Button text="Add new" icon="add" @click="isAdd = true" style="flex: none" />
     </div>
-    <div :class="$style.list">
+    <div :class="$style.tags">
       <div
-        v-for="note in list.filter(
-          (x) =>
-            x.tags.join(',').match(new RegExp(filter, 'ig')) ||
-            x.description.match(new RegExp(filter, 'ig')),
-        )"
-        :key="note.id"
-        :class="$style.block"
+        class="clickable"
+        @click="tag = k"
+        :class="[$style.tag, k === tag ? $style.selected : '']"
+        v-for="(v, k) in tags"
+        :key="k"
       >
+        {{ k }} <b>({{ v }})</b>
+      </div>
+    </div>
+    <div :class="$style.list">
+      <div v-for="note in getList()" :key="note.id" :class="$style.block">
         <div :class="$style.header">
           <!-- Left -->
           <div :class="$style.left">
@@ -62,7 +65,28 @@ export default defineComponent({
   },
   methods: {
     async refresh() {
-      this.list = await RestApi.note.getList();
+      this.list = (await RestApi.note.getList()) as any[];
+      this.tags = {
+        all: 0,
+      };
+      for (let i = 0; i < this.list.length; i++) {
+        for (let j = 0; j < this.list[i].tags.length; j++) {
+          this.tags[this.list[i].tags[j]] = ~~this.tags[this.list[i].tags[j]] + 1;
+          this.tags['all'] += 1;
+        }
+      }
+    },
+    getList() {
+      let baseList = [];
+      if (this.tag === 'all') {
+        baseList = this.list;
+      } else {
+        baseList = this.list.filter(
+          (x: any) => x.tags.filter((y: any) => y === this.tag).length > 0,
+        );
+      }
+
+      return baseList.filter((x) => x.description.match(new RegExp(this.filter, 'ig')));
     },
     async remove(id: string) {
       if (confirm('Are you sure?')) {
@@ -76,8 +100,10 @@ export default defineComponent({
       isAdd: false,
       isEdit: false,
       editId: '',
-      list: [],
+      list: [] as any[],
       filter: '',
+      tags: {} as any,
+      tag: 'all',
     };
   },
 });
@@ -85,7 +111,35 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  height: calc(100% - 105px);
+  height: calc(100% - 145px);
+
+  .tags {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 10px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #9c9c9c;
+      padding: 5px 10px;
+      border-radius: 4px;
+      color: #2b2b2b;
+      margin-right: 5px;
+
+      &.selected {
+        background: #fea400;
+      }
+    }
+  }
 
   .list {
     height: 100%;
