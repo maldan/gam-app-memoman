@@ -10,6 +10,7 @@
         v-for="note in list.filter((x) => x.description.match(new RegExp(filter, 'ig')))"
         :key="note.id"
         :class="$style.block"
+        :style="note.priority < 0 ? { opacity: 0.5 } : {}"
       >
         <div :class="$style.header">
           <!-- Left -->
