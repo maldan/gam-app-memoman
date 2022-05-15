@@ -7,7 +7,9 @@
     </div>
     <div :class="$style.list">
       <div
-        v-for="note in list.filter((x) => x.description.match(new RegExp(filter, 'ig')))"
+        v-for="note in $store.state.todo.list.filter((x) =>
+          x.description.match(new RegExp(filter, 'ig')),
+        )"
         :key="note.id"
         :class="$style.block"
         :style="note.priority < 0 ? { opacity: 0.5 } : {}"
@@ -60,7 +62,8 @@ export default defineComponent({
   },
   methods: {
     async refresh() {
-      this.list = await RestApi.todo.getList();
+      await this.$store.dispatch(`todo/getList`);
+      // this.list = await RestApi.todo.getList();
     },
     async remove(id: string) {
       if (confirm('Are you sure?')) {
@@ -86,7 +89,7 @@ export default defineComponent({
       isAdd: false,
       isEdit: false,
       editId: '',
-      list: [],
+      // list: [],
       filter: '',
     };
   },

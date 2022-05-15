@@ -32,7 +32,8 @@ export default defineComponent({
             youtube = r2.match(/https?:\/\/youtu\.be\/(.*)/);
           }
           if (youtube) {
-            return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtube[1]}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            return `<a target="_blank" href="https://www.youtube.com/watch?v=${youtube[1]}"><img src="https://img.youtube.com/vi/${youtube[1]}/0.jpg" style="max-width: 100%;" /></a>`;
+            // return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtube[1]}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
           }
           return `<a target="_blank" href="${r2}">${r2}</a> `;
         });
