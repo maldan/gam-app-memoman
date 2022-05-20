@@ -1,9 +1,6 @@
 <template>
   <div class="main">
-    <Header />
-
-    <!-- Note list -->
-    <List style="margin-top: 10px" />
+    <note-list />
   </div>
 </template>
 
@@ -13,7 +10,7 @@ import Header from '../component/Header.vue';
 import List from '../component/note/List.vue';
 
 export default defineComponent({
-  components: { Header, List },
+  components: {},
   async mounted() {},
   methods: {},
   data: () => {

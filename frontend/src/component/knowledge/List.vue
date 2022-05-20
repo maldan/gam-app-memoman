@@ -52,14 +52,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { RestApi } from '../../util/RestApi';
-import Button from '../Button.vue';
-import Input from '../Input.vue';
 import Add from './Add.vue';
 import Edit from './Edit.vue';
 
 export default defineComponent({
   props: {},
-  components: { Button, Add, Edit, Input },
+  components: { Add, Edit },
   async mounted() {
     this.refresh();
   },

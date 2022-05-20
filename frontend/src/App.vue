@@ -1,5 +1,9 @@
 <template>
+  <ui-header :items="menu" style="position: relative; z-index: 2">
+    <template v-slot:content>{{ projectName }}</template>
+  </ui-header>
   <router-view />
+  <ui-modal-view />
 </template>
 
 <script lang="ts">
@@ -68,6 +72,12 @@ export default defineComponent({
       // @ts-ignore
       API_URL: process.env.VUE_APP_API_URL || `${window.location.origin}/api`,
       moment: Moment,
+      console: console,
+      menu: [
+        { name: 'TODO', url: '/' },
+        { name: 'Knowledge', url: '/knowledge' },
+        { name: 'Notes', url: '/notes' },
+      ],
     };
   },
 });

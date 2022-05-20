@@ -1,9 +1,9 @@
 <template>
   <div :class="$style.container">
     <div style="display: flex; align-items: center; margin-bottom: 10px">
-      <Input placeholder="Filter..." v-model="filter" />
+      <ui-input placeholder="Filter..." v-model="filter" />
       <div>&nbsp;</div>
-      <Button text="Add new" icon="add" @click="isAdd = true" style="flex: none" />
+      <ui-button text="Add new" icon="plus" @click="isAdd = true" style="flex: none" />
     </div>
     <div :class="$style.list">
       <div
@@ -49,14 +49,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { RestApi } from '../../util/RestApi';
-import Button from '../Button.vue';
-import Input from '../Input.vue';
 import Add from './Add.vue';
 import Edit from './Edit.vue';
 
 export default defineComponent({
   props: {},
-  components: { Button, Add, Edit, Input },
+  components: { Add, Edit },
   async mounted() {
     this.refresh();
   },

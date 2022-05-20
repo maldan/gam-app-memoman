@@ -1,19 +1,14 @@
 <template>
   <div class="main">
-    <Header />
-
-    <!-- Note list -->
-    <List style="margin-top: 10px" />
+    <knowledge-list />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Header from '../component/Header.vue';
-import List from '../component/knowledge/List.vue';
 
 export default defineComponent({
-  components: { Header, List },
+  components: {},
   async mounted() {},
   methods: {},
   data: () => {

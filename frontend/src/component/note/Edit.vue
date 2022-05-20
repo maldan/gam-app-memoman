@@ -16,9 +16,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { RestApi } from '../../util/RestApi';
-import Button from '../Button.vue';
-import TextArea from '../TextArea.vue';
-import Input from '../Input.vue';
+
 import Moment from 'moment';
 
 export default defineComponent({
@@ -26,7 +24,7 @@ export default defineComponent({
     id: String,
     date: Object,
   },
-  components: { Button, TextArea, Input },
+  components: {},
   async mounted() {
     const d = await RestApi.note.get(this.id + '');
     this.tags = d.tags.join(', ');

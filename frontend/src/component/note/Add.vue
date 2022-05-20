@@ -16,16 +16,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { RestApi } from '../../util/RestApi';
-import Button from '../Button.vue';
-import TextArea from '../TextArea.vue';
-import Input from '../Input.vue';
 import Moment from 'moment';
 
 export default defineComponent({
   props: {
     date: Object,
   },
-  components: { Button, TextArea, Input },
+  components: {},
   async mounted() {},
   methods: {
     async submit() {
