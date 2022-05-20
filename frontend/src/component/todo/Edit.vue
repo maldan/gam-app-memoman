@@ -1,14 +1,14 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.window">
-      <Input placeholder="Priotiry..." style="margin-bottom: 10px" v-model="priority" />
-      <TextArea placeholder="Description..." style="margin-bottom: 10px" v-model="description" />
-      <Input placeholder="Created..." style="margin-bottom: 10px" v-model="created" />
-      <Input placeholder="Deadline..." style="margin-bottom: 10px" v-model="deadline" />
+      <ui-input placeholder="Priotiry..." style="margin-bottom: 10px" v-model="priority" />
+      <ui-textarea placeholder="Description..." style="margin-bottom: 10px" v-model="description" />
+      <ui-input placeholder="Created..." style="margin-bottom: 10px" v-model="created" />
+      <ui-input placeholder="Deadline..." style="margin-bottom: 10px" v-model="deadline" />
 
       <div style="display: flex">
-        <Button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
-        <Button @click="submit()" text="Save" icon="add" style="margin-left: 5px" />
+        <ui-button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
+        <ui-button @click="submit()" text="Save" icon="plus" style="margin-left: 5px" />
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { RestApi } from '../../util/RestApi';
+import { RestApi } from '@/util/RestApi';
 import Moment from 'moment';
 
 export default defineComponent({

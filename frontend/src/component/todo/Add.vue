@@ -8,7 +8,7 @@
 
       <div style="display: flex">
         <ui-button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
-        <ui-button @click="submit()" text="Add" icon="add" style="margin-left: 5px" />
+        <ui-button @click="submit()" text="Add" icon="plus" style="margin-left: 5px" />
       </div>
     </div>
   </div>

@@ -1,11 +1,12 @@
 <template>
   <div :class="$style.container">
     <div style="display: flex; align-items: center; margin-bottom: 10px">
-      <Input placeholder="Filter..." v-model="filter" />
+      <ui-input placeholder="Filter..." v-model="filter" />
       <div>&nbsp;</div>
-      <Button text="Add new" icon="add" @click="isAdd = true" style="flex: none" />
+      <ui-button icon="plus" @click="isAdd = true" style="flex: none; padding: 7px" />
+      <ui-button v-if="tag" text="Back" @click="tag = ''" style="flex: none; margin-left: 5px" />
     </div>
-    <div :class="$style.tags">
+    <div v-if="!tag" :class="$style.tags">
       <div
         class="clickable"
         @click="tag = k"
@@ -16,7 +17,9 @@
         {{ k }} <b>({{ v }})</b>
       </div>
     </div>
-    <div :class="$style.list">
+
+    <!-- List -->
+    <div v-if="tag" :class="$style.list">
       <div v-for="note in getList()" :key="note.id" :class="$style.block">
         <div :class="$style.header">
           <!-- Left -->
@@ -26,7 +29,10 @@
 
           <!-- Icons -->
           <img
-            @click="(editId = note.id), (isEdit = true)"
+            @click="
+              editId = note.id;
+              isEdit = true;
+            "
             class="clickable"
             src="../../asset/pencil.svg"
             alt=""
@@ -44,14 +50,27 @@
     </div>
 
     <!-- Modal -->
-    <Add v-if="isAdd" @close="(isAdd = false), refresh()" />
-    <Edit :id="editId" v-if="isEdit" @close="(isEdit = false), refresh()" />
+    <Add
+      v-if="isAdd"
+      @close="
+        isAdd = false;
+        refresh();
+      "
+    />
+    <Edit
+      :id="editId"
+      v-if="isEdit"
+      @close="
+        isEdit = false;
+        refresh();
+      "
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { RestApi } from '../../util/RestApi';
+import { RestApi } from '@/util/RestApi';
 import Add from './Add.vue';
 import Edit from './Edit.vue';
 
@@ -64,13 +83,11 @@ export default defineComponent({
   methods: {
     async refresh() {
       this.list = (await RestApi.note.getList()) as any[];
-      this.tags = {
-        all: 0,
-      };
+      this.tags = {};
       for (let i = 0; i < this.list.length; i++) {
         for (let j = 0; j < this.list[i].tags.length; j++) {
           this.tags[this.list[i].tags[j]] = ~~this.tags[this.list[i].tags[j]] + 1;
-          this.tags['all'] += 1;
+          // this.tags['all'] += 1;
         }
       }
     },
@@ -101,7 +118,7 @@ export default defineComponent({
       list: [] as any[],
       filter: '',
       tags: {} as any,
-      tag: 'all',
+      tag: '',
     };
   },
 });
@@ -112,10 +129,10 @@ export default defineComponent({
   height: calc(100% - 145px);
 
   .tags {
-    white-space: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
     margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -126,12 +143,15 @@ export default defineComponent({
     }
 
     .tag {
-      display: inline-block;
       background: #9c9c9c;
-      padding: 5px 10px;
+      padding: 10px;
       border-radius: 4px;
       color: #2b2b2b;
-      margin-right: 5px;
+      text-align: center;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &.selected {
         background: #fea400;
