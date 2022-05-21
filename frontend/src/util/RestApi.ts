@@ -53,7 +53,7 @@ export const RestApi = {
     },
   },
 
-  knowledge: {
+  /* knowledge: {
     async getList() {
       return (await Axios.get(`${API_URL}/knowledge/list`)).data.response;
     },
@@ -75,5 +75,5 @@ export const RestApi = {
     async delete(id: string) {
       return (await Axios.delete(`${API_URL}/knowledge?id=${id}`)).data.response;
     },
-  },
+  },*/
 };

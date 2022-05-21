@@ -1,13 +1,34 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.window">
-      <ui-textarea placeholder="Description..." style="margin-bottom: 10px" v-model="description" />
-      <ui-input placeholder="Tags..." style="margin-bottom: 10px" v-model="tags" />
-      <ui-input placeholder="Created..." style="margin-bottom: 10px" v-model="created" />
+      <ui-textarea
+        placeholder="Description..."
+        style="margin-bottom: 10px"
+        v-model="$store.state.modal.data.description"
+      />
+      <ui-input
+        placeholder="Tags..."
+        style="margin-bottom: 10px"
+        v-model="$store.state.modal.data.tags"
+      />
+      <ui-input
+        placeholder="Created..."
+        style="margin-bottom: 10px"
+        v-model="$store.state.modal.data.created"
+      />
 
       <div style="display: flex">
-        <ui-button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
-        <ui-button @click="submit()" text="Save" icon="plus" style="margin-left: 5px" />
+        <ui-button
+          @click="$store.dispatch('modal/close')"
+          text="Cancel"
+          style="margin-right: 5px"
+        />
+        <ui-button
+          @click="$store.dispatch('modal/ok')"
+          text="Save"
+          icon="plus"
+          style="margin-left: 5px"
+        />
       </div>
     </div>
   </div>
@@ -15,7 +36,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { RestApi } from '../../util/RestApi';
 import Moment from 'moment';
 
 export default defineComponent({
@@ -25,20 +45,20 @@ export default defineComponent({
   },
   components: {},
   async mounted() {
-    const d = await RestApi.knowledge.get(this.id + '');
+    /*const d = await RestApi.knowledge.get(this.id + '');
     this.tags = d.tags.join(', ');
     this.description = d.description + '';
-    this.created = Moment(d.created).format('YYYY-MM-DD HH:mm:ss');
+    this.created = Moment(d.created).format('YYYY-MM-DD HH:mm:ss');*/
   },
   methods: {
     async submit() {
-      await RestApi.knowledge.update({
+      /*await RestApi.knowledge.update({
         id: this.id + '',
         tags: this.tags.split(',').map((x: string) => x.trim()),
         description: this.description,
         created: this.created,
       });
-      this.$emit('close');
+      this.$emit('close');*/
     },
   },
   data() {

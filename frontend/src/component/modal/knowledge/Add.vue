@@ -1,21 +1,34 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.window">
-      <ui-textarea placeholder="Description..." style="margin-bottom: 10px" v-model="description" />
+      <ui-textarea
+        placeholder="Description..."
+        style="margin-bottom: 10px"
+        v-model="$store.state.modal.data.description"
+      />
       <ui-input
         placeholder="Tags..."
         style="margin-bottom: 10px; margin-top: 10px"
-        v-model="tags"
+        v-model="$store.state.modal.data.tags"
       />
       <ui-input
         placeholder="Created..."
         style="margin-bottom: 10px; margin-top: 10px"
-        v-model="created"
+        v-model="$store.state.modal.data.created"
       />
 
       <div style="display: flex">
-        <ui-button @click="$emit('close')" text="Cancel" style="margin-right: 5px" />
-        <ui-button @click="submit()" text="Add" icon="plus" style="margin-left: 5px" />
+        <ui-button
+          @click="$store.dispatch('modal/close')"
+          text="Cancel"
+          style="margin-right: 5px"
+        />
+        <ui-button
+          @click="$store.dispatch('modal/ok')"
+          text="Add"
+          icon="plus"
+          style="margin-left: 5px"
+        />
       </div>
     </div>
   </div>
@@ -23,7 +36,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { RestApi } from '@/util/RestApi';
 import Moment from 'moment';
 
 export default defineComponent({
@@ -34,12 +46,12 @@ export default defineComponent({
   async mounted() {},
   methods: {
     async submit() {
-      await RestApi.knowledge.add(
+      /*await RestApi.knowledge.add(
         this.description,
         this.tags.split(',').map((x: string) => x.trim()),
         this.created,
       );
-      this.$emit('close');
+      this.$emit('close');*/
     },
   },
   data() {
